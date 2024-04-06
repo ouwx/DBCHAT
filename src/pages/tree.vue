@@ -1,55 +1,32 @@
 <template>
-  <el-tree :props="props" :load="loadNode" lazy show-checkbox @check-change="handleCheckChange">
-  </el-tree>
+  <div>
+    <el-radio v-model="radio" label="1">备选项</el-radio>
+    <el-radio v-model="radio" label="2">备选项</el-radio>
+    <div class="buttons">
+      <el-button @click="getCheckedNodes">切换数据库</el-button>
+    </div>
+  </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      props: {
-        label: 'name',
-        children: 'zones'
-      },
-      count: 1
+      radio: '1'
     };
   },
   methods: {
-    handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
-    },
-    handleNodeClick(data) {
-      console.log(data);
-    },
-    loadNode(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: 'region1' }, { name: 'region2' }]);
+    async postData() {
+      try {
+        const response = await axios.post('http://example.com/api/post', {
+          data: 'your data'
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
       }
-      if (node.level > 3) return resolve([]);
-
-      var hasChild;
-      if (node.data.name === 'region1') {
-        hasChild = true;
-      } else if (node.data.name === 'region2') {
-        hasChild = false;
-      } else {
-        hasChild = Math.random() > 0.5;
-      }
-
-      setTimeout(() => {
-        var data;
-        if (hasChild) {
-          data = [{
-            name: 'zone' + this.count++
-          }, {
-            name: 'zone' + this.count++
-          }];
-        } else {
-          data = [];
-        }
-
-        resolve(data);
-      }, 500);
+    },    
     }
   }
 };
