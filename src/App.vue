@@ -2,15 +2,18 @@
   <el-container>
     <el-header>Header</el-header>
     <el-container>
-      <el-aside width="200px">{{tree}}</el-aside>
+      <el-aside width="200px"><Tree></Tree></el-aside>
       <el-main>Main</el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import {{tree}} from "pages/tree.vue";
+import Tree from './pages/tree.vue';
 export default {
+  components: {
+    Tree // 注册树形结构组件
+  },
   methods: {
     startHacking() {
       this.$notify({
